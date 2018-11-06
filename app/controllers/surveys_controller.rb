@@ -11,6 +11,9 @@ class SurveysController < ApplicationController
   # GET /surveys/1
   # GET /surveys/1.json
   def show
+    set_survey
+    @answer = Answer.new
+    @response = Response.new
   end
 
   # GET /surveys/new
@@ -30,7 +33,7 @@ end
   # POST /surveys
   # POST /surveys.json
   def create
-    @survey = Survey.new(survey_params)
+    @survey = current_user.surveys.new(survey_params)
 
     respond_to do |format|
       if @survey.save

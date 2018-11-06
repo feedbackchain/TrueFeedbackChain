@@ -1,13 +1,14 @@
-<p id="notice"><%= notice %></p>
+<%= simple_form_for @survey do |f| %> 
+	 <%= @survey.name %> <br>
+		<% @survey.questions.each do |question| %> 
+		<%=  question.title %> <br>
+		<%  question.options.each do |option| %>
+	 	<%= radio_button_tag 'option[id]', option.id %>
+	 	<%=  option.otext %> <br>
 
-<p>
-  <strong>Name:</strong>
-  <%= @survey.name %>
-</p>
+			<% end %>
+	<% end %>
 
-<p>
+<%= f.submit %> 
+ <% end %>
 
-</p>
-
-<%= link_to 'Edit', edit_survey_path(@survey) %> |
-<%= link_to 'Back', surveys_path %>
