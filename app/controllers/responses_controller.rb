@@ -1,17 +1,14 @@
 class ResponsesController < ApplicationController
 
-	def new		  
-    load_survey  
-	end
 
 
 	def create
-    	load_survey
-    	@response = @survey.responses.build response_params
+		
+    	@response = current_user.responses.build(response_params)
     	if @response.save
-      	redirect_to edit_survey_response_path(@survey, @response)
+      	redirect_to root, notice: "Yay! You voted on survey."
     	else
-      	render 'new', notice: "Please correct errors below."
+      	redirect_to root_path, notice: "Please correct errors below."
     	end
   	end
 
@@ -27,13 +24,13 @@ class ResponsesController < ApplicationController
 private
 
 	def load_survey
-    @survey = Survey.find params[:survey_id]
+    @survey = Survey.find(params[:id])
 	end
 
 
 
   def response_params
-    params.require(:response).permit! if params[:response]
+    params.require(:survey).permit(:id,responses_parameters: [:id, :user_id, :survey_id, answers_attributes:[:question_id, :response_id, :option_id ]] )
   end
 
 

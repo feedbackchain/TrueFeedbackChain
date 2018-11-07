@@ -1,14 +1,10 @@
-<%= simple_form_for @survey do |f| %> 
-	 <%= @survey.name %> <br>
-		<% @survey.questions.each do |question| %> 
-		<%=  question.title %> <br>
-		<%  question.options.each do |option| %>
-	 	<%= radio_button_tag 'option[id]', option.id %>
-	 	<%=  option.otext %> <br>
+<h4>	<%= @survey.name %>(<%= @survey.id %>)</h4> <br>
+ 	<%= hidden_field_tag 'survey[id]', @survey.id %>
+<%= render partial: 'surveys/questions_form' %>
+	 	
 
-			<% end %>
-	<% end %>
+	
 
-<%= f.submit %> 
- <% end %>
+
+ 
 

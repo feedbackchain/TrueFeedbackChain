@@ -11,8 +11,8 @@ class SurveysController < ApplicationController
   # GET /surveys/1
   # GET /surveys/1.json
   def show
-    set_survey
-    @answer = Answer.new
+    #set_survey
+    
     @response = Response.new
   end
 
@@ -70,6 +70,14 @@ end
     end
   end
 
+
+
+
+
+
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_survey
@@ -80,4 +88,10 @@ end
     def survey_params
       params.require(:survey).permit(:name, :user_id, questions_attributes:[:id, :title, :qtype, :survey_id, options_attributes:[:id, :otext, :question_id]])
     end
+
+
+
+
+
+
 end
