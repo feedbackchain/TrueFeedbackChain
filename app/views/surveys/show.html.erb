@@ -1,10 +1,11 @@
 <h4>	<%= @survey.name %>(<%= @survey.id %>)</h4> <br>
- 	<%= hidden_field_tag 'survey[id]', @survey.id %>
-<%= render partial: 'surveys/questions_form' %>
-	 	
 
-	
+<% @survey.questions.each do |question| %>
+ 	
+<%= question.title  %> <br>
 
+<% question.options.each do |option| %> 
+<%= option.otext  %> <br>
 
- 
-
+<% end  %>
+<% end  %>

@@ -13,7 +13,7 @@ class SurveysController < ApplicationController
   def show
     #set_survey
     
-    @response = Response.new
+  
   end
 
   # GET /surveys/new
@@ -72,9 +72,24 @@ end
 
 
 
+def new_response
+@survey = Survey.find(params[:id])
+@response = @survey.responses.build
+
+    # now, the tricky part, you have to build the Answer objects so you can use the nested form later
+    @survey.questions.each do |q|
+      @response.answers.build question: q
+    end
+  end
 
 
 
+def create_response
+  @survey = Survey.find(params[:id])
+  @response = @survey.build(response_params)
+  @response.user = current_user
+  @response.save
+end
 
 
 
@@ -86,10 +101,12 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def survey_params
-      params.require(:survey).permit(:name, :user_id, questions_attributes:[:id, :title, :qtype, :survey_id, options_attributes:[:id, :otext, :question_id]])
+      params.require(:survey).permit(:id,:name, :user_id, questions_attributes:[:id, :title, :qtype, :survey_id, options_attributes:[:id, :otext, :question_id]])
     end
 
-
+def response_params
+  params.require(:response).permit(answers_attributes: [:question_id, :choice_id])  
+end
 
 
 
