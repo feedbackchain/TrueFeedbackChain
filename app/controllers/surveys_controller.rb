@@ -1,6 +1,7 @@
 class SurveysController < ApplicationController
   before_action :authenticate_user!
   before_action :set_survey, only: [:show, :edit, :update, :destroy]
+  before_action :check_responsed, only:[:new_response, :create_response]
 
   # GET /surveys
   # GET /surveys.json
@@ -88,8 +89,16 @@ def create_response
   @survey = Survey.find(params[:id])
   @response = @survey.responses.build(response_params)
   @response.user = current_user
-  @response.save
-      
+  respond_to do |format|
+          if @response.save
+          format.html { redirect_to @survey, notice: 'Response was successfully submitted.' }
+          format.json { render :show, status: :created, location: @survey }
+
+      else
+        format.html { render :new }
+        format.json { render json: @survey.errors, status: :unprocessable_entity }
+        end
+    end  
 end
 
 
@@ -108,6 +117,18 @@ end
 def response_params
   params.require(:response).permit(answers_attributes:[:question_id, :option_id])  
 end
+
+def check_responsed
+set_survey
+if @survey.responses.include?(current_user)
+redirect_to root_path
+end
+
+end
+
+
+
+
 
 
 

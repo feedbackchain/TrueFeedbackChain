@@ -7,4 +7,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable
          accepts_nested_attributes_for :surveys, reject_if: :all_blank, allow_destroy: true
          accepts_nested_attributes_for :responses, reject_if: :all_blank, allow_destroy: true
+
+
+
+
+
+
+
+
 end
