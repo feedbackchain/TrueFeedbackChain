@@ -4,19 +4,11 @@ Rails.application.routes.draw do
   	resources :surveys do 
     member do
       get :new_response
-      get :create_response 
-    end
-        
+      post :create_response do
+        resources :options
       end
-  		
-		
-
-  		
-		
-
-#get 'surveys/response' => "surveys#new_response"
+    end
+        end
   root 'surveys#index'
 
-  #get 'surveys/response' => "surveys#responses"
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-end
+  end

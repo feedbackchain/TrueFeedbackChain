@@ -86,9 +86,10 @@ def new_response
 
 def create_response
   @survey = Survey.find(params[:id])
-  @response = @survey.build(response_params)
+  @response = @survey.responses.build(response_params)
   @response.user = current_user
   @response.save
+      
 end
 
 
@@ -105,7 +106,7 @@ end
     end
 
 def response_params
-  params.require(:response).permit(answers_attributes: [:question_id, :choice_id])  
+  params.require(:response).permit(option_attributes:[answers_attributes: [:question_id, :option_id]])  
 end
 
 

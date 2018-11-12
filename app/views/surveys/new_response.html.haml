@@ -1,18 +1,20 @@
 - # surveys/new_response.html.haml
 - # You need to define a nested route inside survey resource to create the response
-= form_for @response, url: create_response_survey_path(@survey) do |f|
+= form_for (@response), url: create_response_survey_path(@survey) do |f|
   - # you can iterate over all the answers already initialized
   = f.fields_for :answers do |ff|
     - # get the question from the current answer to show the title and options and a hidden_field with the question id
+    %br
     - q = ff.object.question
 
     = q.title
     = ff.hidden_field :question_id
 
     - # add the radios for each options for the question
-    - q.options.each do |option|
-      = label_tag do
-        = ff.radio_button :option_id, option.id
-        = option.title
+    - q.options.each do |option|    
+      = label_tag do 
+        = ff.radio_button :option_id, option.id 
+        = option.otext
+        
 
   = f.submit 'Send'
