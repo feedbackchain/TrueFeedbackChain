@@ -106,7 +106,7 @@ end
     end
 
 def response_params
-  params.require(:response).permit(option_attributes:[answers_attributes: [:question_id, :option_id]])  
+  params.require(:response).permit(answers_attributes:[:question_id, :option_id])  
 end
 
 

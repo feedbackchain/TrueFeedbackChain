@@ -4,9 +4,7 @@ Rails.application.routes.draw do
   	resources :surveys do 
     member do
       get :new_response
-      post :create_response do
-        resources :options
-      end
+      post :create_response
     end
         end
   root 'surveys#index'
