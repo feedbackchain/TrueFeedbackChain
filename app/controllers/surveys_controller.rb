@@ -1,5 +1,5 @@
 class SurveysController < ApplicationController
-  #before_action :authenticate_user!
+  before_action :authenticate_user!
   before_action :set_survey, only: [:show, :edit, :update, :destroy]
   before_action :check_responsed, only:[:new_response, :create_response]
 
@@ -99,6 +99,13 @@ def create_response
         format.json { render json: @survey.errors, status: :unprocessable_entity }
         end
     end  
+end
+
+
+def approve
+
+
+  
 end
 
 
