@@ -4,17 +4,18 @@
   - # you can iterate over all the answers already initialized
   = f.fields_for :answers do |ff|
     - # get the question from the current answer to show the title and options and a hidden_field with the question id
-    %br
+    br
     - q = ff.object.question
 
-    = q.title
+    h1 = q.title
     = ff.hidden_field :question_id
-
+    div id="question"
     - # add the radios for each options for the question
     - q.options.each do |option|    
-      = label_tag do 
+      = label_tag do
+      br 
         = ff.radio_button :option_id, option.id 
-        = option.otext
+        strong = option.otext
         
 
-  = f.submit 'Send'
+  = f.submit 'Send', class: "btn btn-primary"

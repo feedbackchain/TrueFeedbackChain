@@ -1,5 +1,5 @@
 class SurveysController < ApplicationController
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
   before_action :set_survey, only: [:show, :edit, :update, :destroy]
   before_action :check_responsed, only:[:new_response, :create_response]
 
@@ -120,8 +120,8 @@ end
 
 def check_responsed
 set_survey
-if @survey.responses.include?(current_user)
-redirect_to root_path
+if @survey.responses.exists?(user_id: current_user.id)
+redirect_to root_path, alert: 'You have already answered the survey'
 end
 
 end
