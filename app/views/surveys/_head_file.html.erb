@@ -2,18 +2,20 @@
   <a class="navbar-brand" href="/">FEEDBACK CHAIN</a>
   <form class="form-inline">
     <% if user_signed_in? %>
+        <% if current_user.admin? %>
+<div style="padding-left: 10px;">
+      <a class="btn btn-outline-success" href="/admin" role="button">
+      Admin Panel
+      </a>
+    </div>    
 
-
+        <% end %>
     <a role="button"> <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-outline-primary"  %> </a>
     <% else %>
     <a role="button"> <%= link_to "Login", new_user_session_path, class: "btn btn-outline-primary"  %> </a>
     <a role="button"> <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-primary"  %> </a>
     <% end %>
-    </a>
-    <div style="padding-left: 10px;">
-      <a class="btn btn-outline-success" href="/admin" role="button">
-      Admin
-      </a>
-    </div>
+    
+    
   </form>
 </nav>

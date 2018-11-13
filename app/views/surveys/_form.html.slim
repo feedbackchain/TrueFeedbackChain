@@ -1,6 +1,9 @@
 = simple_form_for @survey do |f|
-  = f.input :name
-  
+  = f.label "Survey Reward (How much will you pay to all participants?)"
+  br
+  = f.number_field :tempreward, value: number_to_currency(f.object.reward.to_f, precision: 28, delimiter: '', unit: ''), step: :any
+  br
+  = f.input :name    
   h3 questions
   #questions
     = f.simple_fields_for :questions do |question|

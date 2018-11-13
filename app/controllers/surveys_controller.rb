@@ -111,7 +111,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def survey_params
-      params.require(:survey).permit(:id,:name, :user_id, questions_attributes:[:id, :title, :qtype, :survey_id, options_attributes:[:id, :otext, :question_id]])
+      params.require(:survey).permit(:id,:name, :tempreward, :reward, :user_id, questions_attributes:[:id, :title, :qtype, :survey_id, options_attributes:[:id, :otext, :question_id]])
     end
 
 def response_params
