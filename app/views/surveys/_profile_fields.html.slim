@@ -1,0 +1,23 @@
+.nested-fields
+  = f.label "Country"
+  br
+  = f.country_select :country_code, priority: %w(US CA), prompt: 'Please select a country'
+  br
+  #field
+  	= f.label "City"
+  	br
+  	= render 'subregion_select', locals: {parent_region: f.object.country_code}
+  br
+  = f.label "Gender"
+  br
+  = f.select :gender, Profile.genders.keys.to_a
+  br
+  = f.label "Your Language"
+  br
+  = f.select :lang, Profile.langs.keys.to_a
+  br
+  = f.label "Birthdate"
+  br
+  = f.date_field :birthday
+  
+ 

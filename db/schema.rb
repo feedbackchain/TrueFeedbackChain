@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_13_163549) do
+ActiveRecord::Schema.define(version: 2018_11_14_144000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,26 @@ ActiveRecord::Schema.define(version: 2018_11_13_163549) do
     t.index ["question_id"], name: "index_options_on_question_id"
   end
 
+  create_table "profiles", force: :cascade do |t|
+    t.string "profilable_type"
+    t.bigint "profilable_id"
+    t.integer "country"
+    t.integer "city"
+    t.integer "gender"
+    t.integer "lang"
+    t.date "birthday"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "country_code"
+    t.string "state_code"
+    t.index ["birthday"], name: "index_profiles_on_birthday"
+    t.index ["city"], name: "index_profiles_on_city"
+    t.index ["country"], name: "index_profiles_on_country"
+    t.index ["gender"], name: "index_profiles_on_gender"
+    t.index ["lang"], name: "index_profiles_on_lang"
+    t.index ["profilable_type", "profilable_id"], name: "index_profiles_on_profilable_type_and_profilable_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.integer "qtype"
@@ -67,6 +87,9 @@ ActiveRecord::Schema.define(version: 2018_11_13_163549) do
     t.datetime "updated_at", null: false
     t.decimal "tempreward", precision: 20, scale: 10, default: "0.0"
     t.decimal "reward", precision: 20, scale: 10, default: "0.0"
+    t.boolean "approved", default: false
+    t.boolean "reviewed", default: false
+    t.boolean "finished", default: false
     t.index ["user_id"], name: "index_surveys_on_user_id"
   end
 

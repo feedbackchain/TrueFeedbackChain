@@ -1,0 +1,29 @@
+= form_for (@profile), url: create_profile_survey_path(@survey) do |f|  
+  = f.fields_for :profile do |ff|    
+    = f.hidden_field :profilable_id
+    div id="profile"
+     = f.label "Country"
+  br
+  = f.country_select :country_code, priority: %w(US CA), prompt: 'Please select a country'
+  br
+  #field
+    = f.label "City"
+    br
+    = render 'subregion_select', locals: {parent_region: f.object.country_code}
+  br
+  = f.label "Gender"
+  br
+  = f.select :gender, Profile.genders.keys.to_a
+  br
+  = f.label "Your Language"
+  br
+  = f.select :lang, Profile.langs.keys.to_a
+  br
+  = f.label "Birthdate"
+  br
+  = f.date_field :birthday
+
+        
+        
+
+  = f.submit 'Send', class: "btn btn-primary"

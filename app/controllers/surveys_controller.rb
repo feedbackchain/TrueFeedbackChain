@@ -103,12 +103,63 @@ end
 
 
 def approve
+  #authorize @survey
+   @survey = Survey.find_by_id(params[:id])
+   if @survey.approved?
+      @survey.update_attribute(:approved, false)
+      @survey.update_attribute(:reviewed, true)
+       @survey.user.person.budget.increment!(:fbc_budget,  @survey.reward)
+        @survey.decrement!(:reward,  @survey.reward)
+    else
+      @survey.user.person.budget.decrement!(:fbc_budget,  (@survey.tempreward - @survey.reward))
+      @survey.increment!(:reward,  (@survey.tempreward - @survey.reward))
+      @survey.update_attribute(:approved, true)
+      @survey.update_attribute(:reviewed, true)
+
+    end
+    redirect_to surveys_review_path
 
 
+
+end
+
+
+def new_profile
+@survey = Survey.find(params[:id])
+@profile = @survey.build_profile
+
+end
+
+def create_profile
+ @survey = Survey.find(params[:id])
+  @profile = @survey.build_profile(profile_params)
+
+  respond_to do |format|
+          if @profile.save
+          format.html { redirect_to @survey, notice: 'Survey Profile was successfully submitted.' }
+          format.json { render :show, status: :created, location: @survey }
+
+      else
+
+        format.html { redirect_to new_profile_survey_url, notice: 'Survey Profile creating failed. please make sure about all fields.' }
+        format.json { render json: @survey.errors, status: :unprocessable_entity }
+
+
+        end
+    end  
   
 end
 
 
+
+
+
+
+
+
+def subregion_options
+  render partial: 'subregion_select'
+end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -123,6 +174,11 @@ end
 
 def response_params
   params.require(:response).permit(answers_attributes:[:question_id, :option_id])  
+end
+
+def profile_params
+   params.require(:profile).permit(:country_code, :state_code, :gender, :lang, :birthday)
+  
 end
 
 def check_responsed
