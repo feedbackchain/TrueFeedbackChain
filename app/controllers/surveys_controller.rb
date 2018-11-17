@@ -11,10 +11,11 @@ class SurveysController < ApplicationController
 
   # GET /surveys/1
   # GET /surveys/1.json
-  def show
-    #set_survey
-    
-  
+  def show    
+    if current_user.id == @survey.user_id and @survey.profile.nil?
+      flash[:alert] = "You have to create profile before sharing the survey"
+      redirect_to new_profile_survey_path
+    end   
   end
 
   # GET /surveys/new

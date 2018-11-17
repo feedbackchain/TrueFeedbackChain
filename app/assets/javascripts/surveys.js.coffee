@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'turbolinks:load', ->
   $('select#profile_country_code').change (event) ->
     select_wrapper = $('#profile_state_code_wrapper')
 

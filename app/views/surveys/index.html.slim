@@ -1,21 +1,19 @@
 
-h1 Listing surveys
-
-table.table
-  thead
-    tr
-      th Name
-      th Actions
-  tbody
+  #container
     - @surveys.each do |survey|
-      tr
-        td=  link_to survey.name, new_response_survey_path(survey)
-        td
-      
+      #survey class="row"
+        - if current_user.id == survey.user_id 
+            #title class="col"       
+              h4 style="display: inline-block" =link_to survey.name, survey_path(survey)
+            #buttons class="col"
+              = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info'
+              = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger'       
+        - else
+            #title class="col"        
+              h4 style="display: inline-block" =link_to survey.name, new_response_survey_path(survey)
+            #buttons class="col"         
+              = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info'
+              = link_to 'Destroy', survey, :confirm => 'Are you sure?', :method => :delete, class: 'btn btn-danger'
 
-          = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info'
 
-          = link_to 'Destroy', survey, :confirm => 'Are you sure?', :method => :delete, class: 'btn btn-danger'
-
-
-= link_to 'New survey', new_survey_path
+    = link_to 'New survey', new_survey_path
