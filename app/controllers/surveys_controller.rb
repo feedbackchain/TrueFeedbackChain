@@ -2,7 +2,7 @@ class SurveysController < ApplicationController
   before_action :authenticate_user!
   before_action :set_survey, only: [:show, :edit, :update, :destroy]
   before_action :check_responsed, only:[:new_response, :create_response]
-  #before_action :if_profile_nil
+  before_action :if_profile_nil, only: [:show, :create_response, :new_response]
   #before_action :check_balance, only:[:create, :update]
 
   # GET /surveys
@@ -223,9 +223,13 @@ end
 
 
 def if_profile_nil
+  @survey = Survey.find(params[:id])
     if current_user.id == @survey.user_id and @survey.profile.nil?
       flash[:alert] = "You have to create profile before sharing the survey"
       redirect_to new_profile_survey_path
+    elsif @survey.profile.nil?
+      flash[:alert] = "This Survey has no profile yet."
+      redirect_to root_path
     end
 end
 

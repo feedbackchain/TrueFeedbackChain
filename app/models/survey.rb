@@ -16,7 +16,7 @@ private
 
 def survey_reward
 user = User.find(self.user_id)
-if user.budget.fbcbudget < (self.tempreward - self.reward) or self.tempreward < 1.0 
+if user.budget.fbcbudget < (self.tempreward - self.reward) or self.tempreward < 10000.0 
 	errors.add(:base, 'Your Budget is not enough to submit')
 	throw :abort
 		

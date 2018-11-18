@@ -18,3 +18,16 @@
  <%= link_to 'Edit', edit_survey_path(@survey),  class: 'btn btn-primary' %>
 
 <% end  %>
+
+
+<% if @survey.profile != nil && (current_user.admin? or (current_user.id == @survey.user_id))  %>
+
+
+<div class="profiles">
+<%= @survey.profile.country_code %>
+<%= @survey.profile.state_code %>
+<%= @survey.profile.gender %>
+
+</div>
+
+<% end  %>
