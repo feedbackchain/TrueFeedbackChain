@@ -16,6 +16,14 @@ class User < ApplicationRecord
  after_create :create_budget, on: :create
 
 
+  def self.current
+    Survey.current[:user]
+  end
+  def self.current=(user)
+    Survey.current[:user] = user
+  end
+
+
 
   private
   def create_budget

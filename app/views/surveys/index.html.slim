@@ -7,7 +7,10 @@
               h4 style="display: inline-block" =link_to survey.name, survey_path(survey)
             #buttons class="col"
               = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info'
-              = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger'       
+              = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger' 
+              - if current_user.admin?
+              = link_to 'Approve', survey, confirm: 'Are you sure?', method: :approve, class: 'btn btn-primary'
+
         - else
             #title class="col"        
               h4 style="display: inline-block" =link_to survey.name, new_response_survey_path(survey)

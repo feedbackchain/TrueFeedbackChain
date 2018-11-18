@@ -2,6 +2,8 @@ class SurveysController < ApplicationController
   before_action :authenticate_user!
   before_action :set_survey, only: [:show, :edit, :update, :destroy]
   before_action :check_responsed, only:[:new_response, :create_response]
+  #before_action :if_profile_nil
+  #before_action :check_balance, only:[:create, :update]
 
   # GET /surveys
   # GET /surveys.json
@@ -12,10 +14,7 @@ class SurveysController < ApplicationController
   # GET /surveys/1
   # GET /surveys/1.json
   def show    
-    if current_user.id == @survey.user_id and @survey.profile.nil?
-      flash[:alert] = "You have to create profile before sharing the survey"
-      redirect_to new_profile_survey_path
-    end   
+   
   end
 
   # GET /surveys/new
@@ -42,7 +41,7 @@ end
         format.html { redirect_to @survey, notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @survey }
       else
-        format.html { render :new }
+        format.html { redirect_to new_survey_path, alert: "#{@survey.errors[:base]}" }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
       end
     end
@@ -53,10 +52,12 @@ end
   def update
     respond_to do |format|
       if @survey.update(survey_params)
+        @survey.update_attribute(:approved, false)
+        @survey.update_attribute(:reviewed, false)
         format.html { redirect_to @survey, notice: 'Survey was successfully updated.' }
         format.json { render :show, status: :ok, location: @survey }
       else
-        format.html { render :edit }
+        format.html { redirect_to edit_survey_path, alert: "#{@survey.errors[:base]}" }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
       end
     end
@@ -109,10 +110,10 @@ def approve
    if @survey.approved?
       @survey.update_attribute(:approved, false)
       @survey.update_attribute(:reviewed, true)
-       @survey.user.person.budget.increment!(:fbc_budget,  @survey.reward)
+       @survey.user.person.budget.increment!(:fbcbudget,  @survey.reward)
         @survey.decrement!(:reward,  @survey.reward)
     else
-      @survey.user.person.budget.decrement!(:fbc_budget,  (@survey.tempreward - @survey.reward))
+      @survey.user.budget.decrement!(:fbcbudget,  (@survey.tempreward - @survey.reward))
       @survey.increment!(:reward,  (@survey.tempreward - @survey.reward))
       @survey.update_attribute(:approved, true)
       @survey.update_attribute(:reviewed, true)
@@ -125,6 +126,18 @@ def approve
 end
 
 
+def review
+if current_user.admin?
+        @surveys = Survey.order('created_at ASC').where(reviewed: false, finished: :false)
+      else
+        flash[:warning] = 'You dont have permission to review'
+       redirect_to root_path
+    end
+end
+
+
+
+
 def new_profile
 @survey = Survey.find(params[:id])
 @profile = @survey.build_profile
@@ -135,14 +148,14 @@ def create_profile
  @survey = Survey.find(params[:id])
   @profile = @survey.build_profile(profile_params)
 
-  respond_to do |format|
+  respond_to do |format|    
           if @profile.save
           format.html { redirect_to @survey, notice: 'Survey Profile was successfully submitted.' }
           format.json { render :show, status: :created, location: @survey }
 
       else
 
-        format.html { redirect_to new_profile_survey_url, notice: 'Survey Profile creating failed. please make sure about all fields.' }
+        format.html { redirect_to new_profile_survey_url, alert: 'Survey Profile creating failed. please make sure about all fields.' }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
 
 
@@ -170,7 +183,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def survey_params
-      params.require(:survey).permit(:id,:name, :tempreward, :reward, :user_id, questions_attributes:[:id, :title, :qtype, :survey_id, options_attributes:[:id, :otext, :question_id]])
+      params.require(:survey).permit(:name, :tempreward, :reward, questions_attributes:[:id, :title, :qtype, :survey_id, options_attributes:[:id, :otext, :question_id]])
     end
 
 def response_params
@@ -193,7 +206,28 @@ end
 
 
 
+def decrement!(attribute, by = 1)
+  decrement(attribute, by).update_attribute(attribute, self[attribute])
+end
 
+def increment!(attribute, by = 1)
+  increment(attribute, by).update_attribute(attribute, self[attribute])
+end
+
+def check_balance
+  if current_user.budget.fbcbudget < (@survey.tempreward - @survey.reward) or @current_user.budget.fbcbudget < 1000
+    flash[:danger] = 'You have already answered the survey'
+  end
+  
+end
+
+
+def if_profile_nil
+    if current_user.id == @survey.user_id and @survey.profile.nil?
+      flash[:alert] = "You have to create profile before sharing the survey"
+      redirect_to new_profile_survey_path
+    end
+end
 
 
 

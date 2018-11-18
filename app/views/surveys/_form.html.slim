@@ -1,7 +1,7 @@
 = form_for @survey do |f|
   = f.label "Survey Reward (How much will you pay to all participants?)"
   br
-  = f.number_field :tempreward, value: number_to_currency(f.object.reward.to_f, precision: 28, delimiter: '', unit: ''), step: :any
+  = f.number_field :tempreward, value: number_to_currency(f.object.tempreward.to_f, precision: 28, delimiter: '', unit: ''), step: :any
   br
   = f.text_field :name    
   h3 questions

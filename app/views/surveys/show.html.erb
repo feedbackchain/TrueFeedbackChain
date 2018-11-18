@@ -1,11 +1,20 @@
 <h4>	<%= @survey.name %>(Reward: <%= @survey.reward %>)</h4> <br>
 
 <% @survey.questions.each do |question| %>
- 	
-<%= question.title  %> <br>
-
-<% question.options.each do |option| %> 
-<%= option.otext  %> <br>
-
+  	
+<ul> <%= question.title  %>
+	<% question.options.each do |option| %> 
+	<li class="nested-fileds"> <%= option.otext  %> </li>
+	<% end  %>
+	</ul>
 <% end  %>
+
+
+
+<% if current_user.admin? %>
+              <%= link_to 'Approve', @survey, confirm: 'Are you sure?', method: :approve, class: 'btn btn-primary' %>
+              <%= link_to 'Edit', edit_survey_path(@survey),  class: 'btn btn-primary' %>
+ <% elsif current_user.id == @survey.user_id  %>
+ <%= link_to 'Edit', edit_survey_path(@survey),  class: 'btn btn-primary' %>
+
 <% end  %>
