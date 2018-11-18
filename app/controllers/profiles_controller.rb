@@ -1,5 +1,7 @@
 class ProfilesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action :check_user_profile, except: [:new, :create, :subregion_options]
 
   # GET /profiles
   # GET /profiles.json
@@ -24,7 +26,7 @@ class ProfilesController < ApplicationController
   # POST /profiles
   # POST /profiles.json
   def create
-    @profile = current_user.profile.new(profile_params)
+    @profile = current_user.build_profile(pro_params)
 
     respond_to do |format|
       if @profile.save
@@ -41,7 +43,7 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profiles/1.json
   def update
     respond_to do |format|
-      if @profile.update(profile_params)
+      if @profile.update(pro_params)
         format.html { redirect_to @profile, notice: 'Profile was successfully updated.' }
         format.json { render :show, status: :ok, location: @profile }
       else
@@ -75,4 +77,26 @@ end
     def profile_params
       params.fetch(:profile, {})
     end
+
+    def pro_params
+
+      params.require(:profile).permit(:country_code, :state_code, :gender, :lang, :birthday)
+      
+    end
+
+    def check_user_profile
+
+      if current_user.profile.nil?
+        flash[:alert] = "You have to create profile before any activity"
+      redirect_to new_profile_path
+    elsif @profile.profilable_id != current_user.id
+      flash[:alert] = "You don't have permission to show this page"
+      redirect_to root_path
+      end      
+      
+    end
+
+
+
+
 end

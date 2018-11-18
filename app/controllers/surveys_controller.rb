@@ -3,6 +3,7 @@ class SurveysController < ApplicationController
   before_action :set_survey, only: [:show, :edit, :update, :destroy]
   before_action :check_responsed, only:[:new_response, :create_response]
   before_action :if_profile_nil, only: [:show, :create_response, :new_response]
+  before_action :check_user_profile, except: :subregion_options
   #before_action :check_balance, only:[:create, :update]
 
   # GET /surveys
@@ -232,6 +233,20 @@ def if_profile_nil
       redirect_to root_path
     end
 end
+
+  def check_user_profile
+
+      if current_user.profile.nil?
+        flash[:alert] = "You have to create profile before any activity"
+      redirect_to new_profile_path
+          end      
+      
+    end
+
+
+
+
+
 
 
 

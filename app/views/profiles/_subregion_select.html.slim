@@ -1,0 +1,12 @@
+
+#profile_state_code_wrapper
+  - parent_region ||= params[:parent_region]
+  - country = Carmen::Country.coded(parent_region)
+
+  - if country.nil? 
+    em Please select a country above
+  - elsif country.subregions? 
+    = subregion_select(:profile, :state_code, parent_region) 
+  - else 
+    = text_field(:profile, :state_code) 
+  

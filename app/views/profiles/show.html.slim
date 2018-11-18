@@ -1,6 +1,17 @@
-p#notice = notice
+#div class="container"
+ ul
+ 	li	
+ 		= @profile.country_code
+	li	
+		= @profile.state_code
+	li	
+		= @profile.gender
+	li	
+		= @profile.lang
+	li	
+		= Time.now.utc.to_date.year - @profile.birthday.year
 
 
 => link_to 'Edit', edit_profile_path(@profile)
 '|
-=< link_to 'Back', profiles_path
+=< link_to 'Home', root_path
