@@ -12,6 +12,9 @@ class ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.json
   def show
+    @country = Carmen::Country.coded(@profile.country_code)
+    @subregions = @country.subregions
+    @state = @subregions.coded(@profile.state_code)
   end
 
   # GET /profiles/new

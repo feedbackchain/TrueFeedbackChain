@@ -1,12 +1,12 @@
 #div class="container"
- ul
+ ol
   	h3 = "Your:( #{@profile.profilable_id}. id's) Profile"
  	li	
- 		= "#{@profile.country_code}"
+ 		= "Country:  #{@country.name}"
 	li	
-		= "State: #{@profile.state_code}"
+		= "State:  #{@state.name}"
 	li	
-		= "Gender: #{@profile.gender}"
+		= "Gender:  #{@profile.gender}"
 	li	
 		= "Preferred Language: #{@profile.lang}"
 	li	
