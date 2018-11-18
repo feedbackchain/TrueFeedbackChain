@@ -1,15 +1,16 @@
 #div class="container"
  ul
+  	h3 = "Your:( #{@profile.profilable_id}. id's) Profile"
  	li	
- 		= @profile.country_code
+ 		= "#{@profile.country_code}"
 	li	
-		= @profile.state_code
+		= "State: #{@profile.state_code}"
 	li	
-		= @profile.gender
+		= "Gender: #{@profile.gender}"
 	li	
-		= @profile.lang
+		= "Preferred Language: #{@profile.lang}"
 	li	
-		= Time.now.utc.to_date.year - @profile.birthday.year
+		= "Age: #{Time.now.utc.to_date.year - @profile.birthday.year}"
 
 
 => link_to 'Edit', edit_profile_path(@profile)
