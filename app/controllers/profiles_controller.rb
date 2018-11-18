@@ -1,11 +1,11 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action :set_profile, only: [:show, :edit, :update, :destroy, :profile]
   before_action :check_user_profile, except: [:new, :create, :subregion_options]
 
   # GET /profiles
   # GET /profiles.json
-  def index
+  def index    
     @profiles = Profile.all
   end
 
@@ -25,6 +25,8 @@ class ProfilesController < ApplicationController
   # GET /profiles/1/edit
   def edit
   end
+
+
 
   # POST /profiles
   # POST /profiles.json

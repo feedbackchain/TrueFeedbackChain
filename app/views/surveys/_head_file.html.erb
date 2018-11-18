@@ -12,6 +12,8 @@
 
         <% end %>
         <a role="button" class="btn btn-outline-primary"> <%= "You have: #{number_to_currency(current_user.budget.fbcbudget.to_f, unit: "FBC ") unless nil?}   " %> </a>
+        <a role="button"> <%= link_to "Account", edit_user_registration_path, class: "btn btn-outline-primary"  %> </a>
+        <a role="button"> <%= link_to "Profile", current_user.profile, class: "btn btn-outline-primary"  %> </a>
     <a role="button"> <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-outline-primary"  %> </a>
 
     <% else %>
