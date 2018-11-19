@@ -10,10 +10,14 @@ Rails.application.routes.draw do
 
  get 'profiles/subregion_options' => 'profiles#subregion_options'
   get 'surveys/subregion_options' => 'surveys#subregion_options'
-  
-  	resources :surveys do       
-      member do
-       
+  get 'surveys/review' => "surveys#review"
+  	resources :surveys do
+       member do
+        get :finish
+        put :finish
+        get :approve
+        put :approve
+        post :approve        
         get :new_profile           
       post :create_profile      
       get :new_response

@@ -106,8 +106,9 @@ end
 
 
 def approve
-  #authorize @survey
-   @survey = Survey.find_by_id(params[:id])
+  
+   set_survey
+   check_balance
    if @survey.approved?
       @survey.update_attribute(:approved, false)
       @survey.update_attribute(:reviewed, true)
@@ -129,12 +130,24 @@ end
 
 def review
 if current_user.admin?
-        @surveys = Survey.order('created_at ASC').where(reviewed: false, finished: :false)
-      else
-        flash[:warning] = 'You dont have permission to review'
-       redirect_to root_path
+        @surveys = Survey.order('created_at ASC').where(reviewed: false)
+        @unf_surveys = Survey.order('created_at ASC').where(approved: true)
+      else        
+       redirect_to root_path, alert: 'You dont have permission to review'
     end
 end
+
+
+
+
+  def finish
+    set_survey
+    @survey.update_attribute(:finished, true)
+    @division = @survey.reward / @survey.response.size
+    @survey.responses.each do |response| 
+      response.user.budget.increment!(:fbc_budget,  @division)
+    end
+  end
 
 
 
@@ -217,7 +230,7 @@ end
 
 def check_balance
   if current_user.budget.fbcbudget < (@survey.tempreward - @survey.reward) or @current_user.budget.fbcbudget < 1000
-    flash[:danger] = 'You have already answered the survey'
+    redirect_to root_path, alert: 'User budget is not enough'
   end
   
 end

@@ -1,0 +1,19 @@
+#container
+    - @unf_surveys.each do |survey|
+      #survey class="row"
+            #title class="col"       
+              h6 style="display: inline-block" =link_to "#{survey.name} ( T.Reward:#{survey.tempreward}) and A.Reward:#{survey.reward}", new_response_survey_path(survey)
+            #buttons class="col"
+              = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info'
+              = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger' 
+              - if survey.approved? 
+                = link_to 'Revoke Approve', approve_survey_path(survey), class: 'btn btn-primary'
+              -else
+                = link_to 'Approve', approve_survey_path(survey), class: 'btn btn-primary'
+              
+              = link_to 'Finish', finish_survey_path(survey), confirm: 'This Survey will be finished and rewards will distribute. Are you sure?', class: 'btn btn-danger' if survey.approved?
+                   
+              
+
+
+  
