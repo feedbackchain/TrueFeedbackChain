@@ -8,10 +8,7 @@
             #buttons class="col"
               = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info'
               = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger' 
-              - if survey.approved? 
-                = link_to 'Revoke Approve', approve_survey_path(survey), class: 'btn btn-primary'
-              -else
-                = link_to 'Approve', approve_survey_path(survey), class: 'btn btn-primary'
+              = link_to 'Approve', approve_survey_path(survey), class: 'btn btn-primary' unless survey.approved?
               
               = link_to 'Finish', finish_survey_path(survey), confirm: 'This Survey will be finished and rewards will distribute. Are you sure?', class: 'btn btn-danger' if survey.approved?
     

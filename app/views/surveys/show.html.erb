@@ -1,4 +1,6 @@
-<h4>	<%= @survey.name %>(Reward: <%= @survey.reward %>)</h4> <br>
+<h4 style="display: inline-block"> <%= "#{@survey.name}" %> </h4> <br>
+<p><%= " Reward Per Participant:#{@survey.reward}) Participants Limit :#{@survey.plimit}, Total Reward :#{number_to_currency(@survey.totalr.to_f, unit: "FBC ")}" %></p>
+
 
 <% @survey.questions.each do |question| %>
   	
@@ -12,10 +14,10 @@
 
 
 <% if current_user.admin? %>
-              <%= link_to 'Approve', @survey, confirm: 'Are you sure?', method: :approve, class: 'btn btn-primary' %>
-              <%= link_to 'Edit', edit_survey_path(@survey),  class: 'btn btn-primary' %>
+              <%= link_to 'Approve', @survey, confirm: 'Are you sure?', method: :approve, class: 'btn btn-primary' unless @survey.approved? %>
+              <%= link_to 'Edit', edit_survey_path(@survey),  class: 'btn btn-primary' unless @survey.finished? %>
  <% elsif current_user.id == @survey.user_id  %>
- <%= link_to 'Edit', edit_survey_path(@survey),  class: 'btn btn-primary' %>
+ <%= link_to 'Edit', edit_survey_path(@survey),  class: 'btn btn-primary' unless @survey.finished? %>
 
 <% end  %>
 

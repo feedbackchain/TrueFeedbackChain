@@ -4,12 +4,13 @@ class SurveysController < ApplicationController
   before_action :check_responsed, only:[:new_response, :create_response]
   before_action :if_profile_nil, only: [:show, :create_response, :new_response]
   before_action :check_user_profile, except: :subregion_options
+  before_action :check_admin, only: [:finish, :approve, :review]
   #before_action :check_balance, only:[:create, :update]
 
   # GET /surveys
   # GET /surveys.json
   def index
-    @surveys = Survey.all
+    @surveys = Survey.order('created_at ASC').where(reviewed: true, approved: true)
   end
 
   # GET /surveys/1
@@ -98,7 +99,7 @@ def create_response
           format.json { render :show, status: :created, location: @survey }
 
       else
-        format.html { render :new }
+        format.html { redirect_to new_response_survey_path, alert: 'You must response to all questions.' }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
         end
     end  
@@ -109,18 +110,13 @@ def approve
   
    set_survey
    check_balance
-   if @survey.approved?
-      @survey.update_attribute(:approved, false)
-      @survey.update_attribute(:reviewed, true)
-       @survey.user.budget.increment!(:fbcbudget,  @survey.reward)
-        @survey.decrement!(:reward,  @survey.reward)
-    else
-      @survey.user.budget.decrement!(:fbcbudget,  (@survey.tempreward - @survey.reward))
-      @survey.increment!(:reward,  (@survey.tempreward - @survey.reward))
+      @survey.user.budget.decrement!(:fbcbudget,  (@survey.tempreward - @survey.reward) * @survey.plimit)
+      @survey.increment!(:totalr, (@survey.tempreward - @survey.reward) * @survey.plimit)
+      @survey.increment!(:reward, @survey.tempreward - @survey.reward)
       @survey.update_attribute(:approved, true)
       @survey.update_attribute(:reviewed, true)
 
-    end
+    
     redirect_to surveys_review_path
 
 
@@ -131,7 +127,7 @@ end
 def review
 if current_user.admin?
         @surveys = Survey.order('created_at ASC').where(reviewed: false, approved: false)
-        @unf_surveys = Survey.order('created_at ASC').where(approved: true)
+        @unf_surveys = Survey.order('created_at ASC').where(approved: true, finished: false)
       else        
        redirect_to root_path, alert: 'You dont have permission to review'
     end
@@ -141,12 +137,21 @@ end
 
 
   def finish
-    set_survey
-    @survey.update_attribute(:finished, true)
-    @division = @survey.reward / @survey.response.size
-    @survey.responses.each do |response| 
-      response.user.budget.increment!(:fbc_budget,  @division)
-    end
+    
+      set_survey
+      if @survey.finished?
+        redirect_to surveys_review_path, alert: 'Sorry... Survey already Finished.'    
+      else      
+      @survey.update_attribute(:finished, true)
+      @survey.responses.each do |response| 
+      response.user.budget.increment!(:fbcbudget,  @survey.reward)
+      @survey.decrement!(:totalr,  @survey.reward)
+      end
+      @survey.user.budget.increment!(:fbcbudget,  @survey.totalr)
+      redirect_to surveys_review_path, notice: 'Survey Successfully Finished.'
+      end
+
+
   end
 
 
@@ -197,7 +202,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def survey_params
-      params.require(:survey).permit(:name, :tempreward, :reward, questions_attributes:[:id, :title, :qtype, :survey_id, options_attributes:[:id, :otext, :question_id]])
+      params.require(:survey).permit(:name, :tempreward, :reward, :plimit, questions_attributes:[:id, :title, :qtype, :survey_id, options_attributes:[:id, :otext, :question_id]])
     end
 
 def response_params
@@ -257,7 +262,11 @@ end
     end
 
 
-
+def check_admin
+redirect_to root_path, alert: 'Oops...You dont have permission for this action'  unless current_user.admin?
+  
+ 
+end
 
 
 

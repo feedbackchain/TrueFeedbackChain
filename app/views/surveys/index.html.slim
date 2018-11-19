@@ -4,7 +4,7 @@
       #survey class="row"
         - if current_user.id == survey.user_id
             #title class="col"       
-              h4 style="display: inline-block" =link_to "#{survey.name} ( Reward:#{survey.reward})", survey_path(survey)
+              h4 style="display: inline-block" =link_to "#{survey.name} ( Reward:#{survey.reward}) Limit :#{survey.plimit}, Total R. :#{survey.totalr})", survey_path(survey)
             #buttons class="col"
               = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info'
               = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger' 
@@ -14,7 +14,7 @@
 
         - else
             #title class="col"        
-              h4 style="display: inline-block" =link_to "#{survey.name} ( Reward:#{survey.reward})", new_response_survey_path(survey)
+              h4 style="display: inline-block" =link_to "#{survey.name} ( Reward Per P:#{survey.reward}, Total R:#{survey.totalr})", new_response_survey_path(survey)
                    
               
 

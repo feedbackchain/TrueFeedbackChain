@@ -1,7 +1,14 @@
 = form_for @survey do |f|
-  = f.label "Survey Reward (How much will you pay to all participants?)"
+  = f.label "Survey Reward (How much will you pay per participant? -)"
   br
   = f.number_field :tempreward, value: number_to_currency(f.object.tempreward.to_f, precision: 28, delimiter: '', unit: ''), step: :any
+  br
+  = f.label "Participants limit: (How much participant can response?)" 
+  br 
+  = f.number_field :plimit
+  = f.label "Note: reward per participant x participant limit = Total will have been decreased from your budget when approved by management)"
+  br
+  = f.label "Survey Name:"
   br
   = f.text_field :name    
   h3 questions

@@ -1,4 +1,5 @@
 .nested-fields
+  = f.label "Question Title"	
   = f.text_field :title
   
   = link_to_remove_association "remove question", f
@@ -6,5 +7,5 @@
   = f.simple_fields_for :options do |option|
       = render 'option_fields', f: option
 
-.links
-     = link_to_add_association 'add option', f, :options 
+  .links
+    = link_to_add_association 'add option', f, :options 

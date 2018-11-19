@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_19_152959) do
+ActiveRecord::Schema.define(version: 2018_11_19_161754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2018_11_19_152959) do
     t.boolean "reviewed", default: false
     t.boolean "finished", default: false
     t.integer "plimit", default: 100
+    t.decimal "totalr", precision: 20, scale: 10, default: "0.0"
     t.index ["user_id"], name: "index_surveys_on_user_id"
   end
 
