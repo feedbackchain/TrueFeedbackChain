@@ -1,35 +1,28 @@
 <nav class="navbar navbar-light bg-light">
   <a class="navbar-brand" href="/">FEEDBACK CHAIN</a>
-  <form class="form-inline">
+    <form class="form-inline">
     <% if user_signed_in? %>
-        <% if current_user.admin? %>
 
-        <div class="dropdown">
+<div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Manage
+    Account
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <% if current_user.admin? %>  
     <a class="dropdown-item" href="/surveys/review">Review Surveys</a>
-    <a class="dropdown-item" href="/surveys/finish">Finish Surveys</a>
-    <a class="dropdown-item" href="#">Something else here</a>
+    <a class="dropdown-item" href="/surveys/finish">Finish Surveys</a>    
+    <a class="dropdown-item" href="/admin"> Admin Panel </a>
+       <% end %>
+    <a class="dropdown-item" href="/users/edit">Edit Account</a>
+    <a><%= link_to "Profile", current_user.profile, class: "dropdown-item"  %></a>
+    <a><%= link_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item"  %></a>
   </div>
-</div>
+   <a role="button" class="btn btn-outline-primary"> <%= "You have: #{number_to_currency(current_user.budget.fbcbudget.to_f, unit: "FBC ") unless nil?}   " %> </a>
 
 
 
-<div style="padding-left: 10px;">
-  
-      <a class="btn btn-outline-success" href="/admin" role="button">
-      Admin Panel
-      </a>
-      <a role="button"> <%= link_to "Review", surveys_review_path, class: "btn btn-outline-info"  %> </a>
-    </div>    
-
-        <% end %>
-        <a role="button" class="btn btn-outline-primary"> <%= "You have: #{number_to_currency(current_user.budget.fbcbudget.to_f, unit: "FBC ") unless nil?}   " %> </a>
-        <a role="button"> <%= link_to "Account", edit_user_registration_path, class: "btn btn-outline-primary"  %> </a>
-        <a role="button"> <%= link_to "Profile", current_user.profile, class: "btn btn-outline-primary"  %> </a>
-    <a role="button"> <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-outline-primary"  %> </a>
+       
+        
 
     <% else %>
        <a role="button"> <%= link_to "Login", new_user_session_path, class: "btn btn-outline-primary"  %> </a>
