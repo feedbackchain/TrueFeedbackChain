@@ -112,7 +112,7 @@ def approve
    if @survey.approved?
       @survey.update_attribute(:approved, false)
       @survey.update_attribute(:reviewed, true)
-       @survey.user.person.budget.increment!(:fbcbudget,  @survey.reward)
+       @survey.user.budget.increment!(:fbcbudget,  @survey.reward)
         @survey.decrement!(:reward,  @survey.reward)
     else
       @survey.user.budget.decrement!(:fbcbudget,  (@survey.tempreward - @survey.reward))
@@ -130,7 +130,7 @@ end
 
 def review
 if current_user.admin?
-        @surveys = Survey.order('created_at ASC').where(reviewed: false)
+        @surveys = Survey.order('created_at ASC').where(reviewed: false, approved: false)
         @unf_surveys = Survey.order('created_at ASC').where(approved: true)
       else        
        redirect_to root_path, alert: 'You dont have permission to review'
