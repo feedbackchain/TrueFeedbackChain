@@ -38,7 +38,7 @@ class ProfilesController < ApplicationController
         format.html { redirect_to @profile, notice: 'Profile was successfully created.' }
         format.json { render :show, status: :created, location: @profile }
       else
-        format.html { render :new }
+        format.html { redirect_to new_profile_path, alert: 'Please fill all fields'  }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
     end

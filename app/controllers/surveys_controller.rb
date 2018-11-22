@@ -210,7 +210,7 @@ def response_params
 end
 
 def profile_params
-   params.require(:profile).permit(:country_code, :state_code, :gender, :lang, :birthday)
+   params.require(:profile).permit(:country_code, :state_code, :gender, :lang, :max_age, :min_age, :birthday)
   
 end
 

@@ -24,9 +24,12 @@ html
         br
         = f.select :lang, Profile.langs.keys.to_a
         br
-        = f.label "Birthdate"
-        br
-        = f.date_field :birthday
+        #ages
+          = f.label "Minimun Age"
+          = select(@object, :min_age, (13..99).to_a)
+          = f.label "Maximum Age"
+          = select(@object, :max_age, (13..99).to_a)
+          
 
         
         
