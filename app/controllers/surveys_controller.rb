@@ -10,7 +10,7 @@ class SurveysController < ApplicationController
   # GET /surveys
   # GET /surveys.json
   def index
-    @surveys = Survey.order('created_at ASC').where(reviewed: true, approved: true)
+    @surveys = Survey.order('created_at ASC').where(approved: true, finished: false)
   end
 
   # GET /surveys/1

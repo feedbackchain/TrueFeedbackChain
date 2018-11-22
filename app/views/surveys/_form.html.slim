@@ -1,27 +1,30 @@
-= form_for @survey do |f|
-  = f.label "Survey Reward (How much will you pay per participant? -)"
-  br
-  = f.number_field :tempreward, value: number_to_currency(f.object.tempreward.to_f, precision: 28, delimiter: '', unit: ''), step: :any
-  br
-  = f.label "Participants limit: (How much participant can response?)" 
-  br 
-  = f.number_field :plimit
-  = f.label "Note: reward per participant x participant limit = Total will have been decreased from your budget when approved by management)"
-  br
-  = f.label "Survey Name:"
-  br
-  = f.text_field :name    
-  h3 questions
-  #questions
-    = f.fields_for :questions do |question|
-      = render 'question_fields', f: question
-    .links
-      = link_to_add_association 'add question', f, :questions
+  #newsurvey class= "form-group" 
+   = form_for @survey do |f|
+     #numbers class="row"
+      #perresponse class="col"
+         span data-toggle="tooltip" data-placement="top" title="(How much FBC you will pay per pesponser?)"
+            = f.label "Survey Reward (?)"
+         = f.number_field :tempreward, value: number_to_currency(f.object.tempreward.to_f, precision: 3, scale: 15, delimiter: '', unit: ''), step: :any    
+      #perresponse class="col"             
+         span data-toggle="tooltip" data-placement="top" title="(How much participant can response?)"
+            = f.label "Participants limit(?):" 
+         = f.number_field :plimit
+      = f.label "Note: Reward per Participant * Participant limit = Total will have been decreased from your budget when approved by management)", color: "red"
+     br
+     = f.label "Survey Name:"
+     br
+     = f.text_field :name, placeholder:"Survey Name", class:"form-control"
+     #questions    
+      h3 questions     
+      = f.fields_for :questions do |question|
+        = render 'question_fields', f: question
+      .links
+        = link_to_add_association 'add question', f, :questions, class:"btn btn-success btn-sm"
 
 
-    
+       
 
 
-  = f.submit
+     = f.submit
 
 

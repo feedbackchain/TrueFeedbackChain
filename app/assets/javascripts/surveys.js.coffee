@@ -11,3 +11,7 @@ $(document).on 'turbolinks:load', ->
 
   $('select#locale').change (event) ->
 $(@).closest('form').submit()
+
+
+
+
