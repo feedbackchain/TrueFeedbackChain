@@ -3,6 +3,7 @@ class User < ApplicationRecord
 	has_many :responses, dependent: :destroy
 	has_one :budget, dependent: :destroy
    has_one :profile, as: :profilable, dependent: :destroy
+   enum role: ["Standart User", "Moderator", "Customer", "Admin"]
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

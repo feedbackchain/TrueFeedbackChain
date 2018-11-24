@@ -5,7 +5,7 @@ class SurveysController < ApplicationController
   before_action :if_profile_nil, only: [:show, :create_response, :new_response]
   before_action :check_user_profile, except: :subregion_options
   before_action :check_admin, only: [:finish, :approve, :review]
-  #before_action :check_balance, only:[:create, :update]
+  before_action :check_show, only:[:show, :edit]
 
   # GET /surveys
   # GET /surveys.json
@@ -15,7 +15,8 @@ class SurveysController < ApplicationController
 
   # GET /surveys/1
   # GET /surveys/1.json
-  def show    
+  def show 
+
    
   end
 
@@ -216,10 +217,11 @@ end
 
 def check_responsed
 set_survey
-if @survey.responses.exists?(user_id: current_user.id)
-redirect_to root_path, alert: 'You have already answered the survey'
-end
-
+  unless current_user.admin? or current_user.role == 1
+    if @survey.responses.exists?(user_id: current_user.id)
+    redirect_to root_path, alert: 'You have already answered the survey'
+    end
+  end
 end
 
 
@@ -263,11 +265,20 @@ end
 
 
 def check_admin
-redirect_to root_path, alert: 'Oops...You dont have permission for this action'  unless current_user.admin?
+redirect_to root_path, alert: 'Oops...You dont have permission for this action'  unless current_user.admin? or current_user.role == "Moderator"
   
  
 end
 
+def check_show
+
+if current_user.role == "Moderator" or current_user.admin? or current_user == @survey.user
+
+else
+   redirect_to root_path, alert: 'Oops...You dont have permission show'  
+end
+  
+end
 
 
 
