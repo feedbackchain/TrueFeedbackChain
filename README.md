@@ -4,6 +4,8 @@
 * Ruby version 2.5
 * Rails version 5.2
 
+##Note: 
+Filter system will be activated over 100k user registiration globally. Because test and first process time creating survey will be hard with less users.
 
 
 ## Modules:
