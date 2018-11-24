@@ -6,6 +6,7 @@ class SurveysController < ApplicationController
   before_action :check_user_profile, except: :subregion_options
   before_action :check_admin, only: [:finish, :approve, :review]
   before_action :check_show, only:[:show, :edit]
+  before_action :check_customer, only: [:create, :new, :edit]
 
   # GET /surveys
   # GET /surveys.json
@@ -278,6 +279,15 @@ else
    redirect_to root_path, alert: 'Oops...You dont have permission show'  
 end
   
+end
+
+
+def check_customer
+
+  unless current_user.role == "Moderator" or current_user.admin? or current_user == "Customer"
+   redirect_to root_path, alert: 'Oops...You dont have permission to create a survey'
+  
+  end
 end
 
 
