@@ -6,7 +6,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :trackable
+         :recoverable, :rememberable, :validatable, :trackable, :confirmable
     accepts_nested_attributes_for :surveys, reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :responses, reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :budget, reject_if: :all_blank, allow_destroy: true
