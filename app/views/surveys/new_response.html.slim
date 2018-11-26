@@ -1,20 +1,23 @@
  .container
   h1 = @survey.name
-  = form_for (@response), url: create_response_survey_path(@survey) do |f|
-    = f.fields_for :answers do |ff|
-      br
-      - q = ff.object.question
+  # class="card-deck mb-3 text-left"
+    = form_for (@response), url: create_response_survey_path(@survey) do |f|
+      # class="card mb-4"
+        = f.fields_for :answers do |ff|
+          br
+          - q = ff.object.question
+          # class="card-header"
+            h2 = q.title
+          = ff.hidden_field :question_id
+          div id="question"
+          - # add the radios for each options for the question
+          - q.options.each do |option|    
+            = label_tag do
+            
+              = ff.radio_button :option_id, option.id
+              = "  #{option.otext}"
 
-      h2 = q.title
-      = ff.hidden_field :question_id
-      div id="question"
-      - # add the radios for each options for the question
-      - q.options.each do |option|    
-        = label_tag do
-        br 
-          = ff.radio_button :option_id, option.id
-          = "  #{option.otext}"        
-          
-          
+            
+            
 
-    = f.submit 'Send', class: "btn btn-primary"
+      = f.submit 'Send', class: "btn btn-primary"

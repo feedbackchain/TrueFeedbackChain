@@ -1,0 +1,30 @@
+.container
+	h2 = @survey.name
+	- @survey.questions.each do |question|
+		# class="card-deck mb-3 text-center"
+			# class="card mb-4"
+				# class="card-header"
+					= question.title
+				# class="card-body"
+					- question.options.each do |option|
+						.option	
+							= option.otext
+							span class="badge badge-info" = " #{option.answers.size}"
+
+	- if current_user.admin?
+		= link_to 'Approve', @survey, confirm: 'Are you sure?', method: :approve, class: 'btn btn-primary' unless @survey.approved?
+		= link_to 'Edit Survey', edit_survey_path(@survey), style: 'center',  class: 'btn btn-primary' unless @survey.finished?
+					
+	- elsif current_user.id == @survey.user_id
+		= link_to 'Edit Survey', edit_survey_path(@survey),  class: 'btn btn-primary' unless @survey.finished?	
+- if @survey.profile != nil && (current_user.admin? or (current_user.id == @survey.user_id))
+	# class="card-header"
+		h6 Users Filtering Profile
+	# class="card-body"
+		span class="badge badge-info" = "Country: #{@country.name}"
+		span class="badge badge-secondary" = "State:  #{@state.name}"
+		span class="badge badge-warning" = "Gender:  #{@survey.profile.gender}"
+		span class="badge badge-dark" = "Lang:  #{@survey.profile.lang}"
+		span class="badge badge-danger" = "Max Age:  #{@survey.profile.max_age}"
+		span class="badge badge-primary" = "Min Age:  #{@survey.profile.min_age}"
+	= link_to 'Edit Survey Profile', edit_profile_survey_path(@survey), class: 'btn btn-info btn-sm' unless @survey.finished?	
