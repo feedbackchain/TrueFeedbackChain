@@ -20,10 +20,15 @@ user = User.find(self.user_id)
 if user.budget.fbcbudget < ((self.tempreward - self.reward) * self.plimit) or self.plimit < 100 
 	errors.add(:base, 'Your Budget is not enough to submit')
 	throw :abort
-		
-	
 
 end
+
+
+
+
+
+
+
 	
 end
 

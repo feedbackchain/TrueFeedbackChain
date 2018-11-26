@@ -1,10 +1,11 @@
-.row
-	#question class="col-sm-12 col-lg-6"		
-			= f.text_field :title, placeholder:"Question Title", class:"form-control"			  
+.nested-fields
+	.row
+		#question class="col-sm-12 col-lg-6"		
+			= f.text_field :title, placeholder:"Question Title", class:"form-control"	  
 			= link_to_remove_association "Remove Question X", f, class:"btn btn-danger btn-sm"		
-	#optionscol class="col-sm-12 col-lg-6"
-		= f.simple_fields_for :options do |option|
-			= render 'option_fields', f: option
-		.links
-			= link_to_add_association 'add option', f, :options, class:"btn btn-primary btn-sm"
+		#optionscol class="col-sm-12 col-lg-6"
+			= f.simple_fields_for :options do |option|
+				= render 'option_fields', f: option
+			.links
+				= link_to_add_association 'add option', f, :options, class:"btn btn-primary btn-sm"
 hr			 

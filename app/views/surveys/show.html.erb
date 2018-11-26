@@ -15,20 +15,23 @@
 
 <% if current_user.admin? %>
               <%= link_to 'Approve', @survey, confirm: 'Are you sure?', method: :approve, class: 'btn btn-primary' unless @survey.approved? %>
-              <%= link_to 'Edit', edit_survey_path(@survey),  class: 'btn btn-primary' unless @survey.finished? %>
+              <%= link_to 'Edit Survey', edit_survey_path(@survey),  class: 'btn btn-primary' unless @survey.finished? %>
+              <%= link_to 'Edit Survey Profile', edit_profile_survey_path(@survey), class: 'btn btn-info' unless @survey.finished? %>
  <% elsif current_user.id == @survey.user_id  %>
- <%= link_to 'Edit', edit_survey_path(@survey),  class: 'btn btn-primary' unless @survey.finished? %>
+ <%= link_to 'Edit Survey', edit_survey_path(@survey),  class: 'btn btn-primary' unless @survey.finished? %>
 
 <% end  %>
 
 
 <% if @survey.profile != nil && (current_user.admin? or (current_user.id == @survey.user_id))  %>
 
-
 <div class="profiles">
-<%= @survey.profile.country_code %>
-<%= @survey.profile.state_code %>
+<%= @country.name %>
+<%= @state.name %>
 <%= @survey.profile.gender %>
+<%= @survey.profile.lang %>
+<%= @survey.profile.max_age %>
+<%= @survey.profile.min_age %>
 
 </div>
 

@@ -18,7 +18,9 @@ class SurveysController < ApplicationController
   # GET /surveys/1.json
   def show 
 
-   
+   @country = Carmen::Country.coded(@survey.profile.country_code)
+    @subregions = @country.subregions
+    @state = @subregions.coded(@survey.profile.state_code)
   end
 
   # GET /surveys/new
@@ -157,7 +159,11 @@ end
   end
 
 
+def edit_profile
+@survey = Survey.find(params[:id])
+@profile = @survey.profile
 
+end
 
 def new_profile
 @survey = Survey.find(params[:id])
@@ -218,11 +224,11 @@ end
 
 def check_responsed
 set_survey
-  unless current_user.admin? or current_user.role == 1
+  
     if @survey.responses.exists?(user_id: current_user.id)
     redirect_to root_path, alert: 'You have already answered the survey'
     end
-  end
+  
 end
 
 
@@ -284,8 +290,8 @@ end
 
 def check_customer
 
-  unless current_user.role == "Moderator" or current_user.admin? or current_user == "Customer"
-   redirect_to root_path, alert: 'Oops...You dont have permission to create a survey'
+  unless current_user.role == "Moderator" or current_user.admin? or current_user.role == "Customer"
+   redirect_to root_path, alert: 'Oops!...You dont have permission to create a survey'
   
   end
 end

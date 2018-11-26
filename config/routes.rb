@@ -18,7 +18,8 @@ Rails.application.routes.draw do
         get :approve
         put :approve
         post :approve        
-        get :new_profile           
+        get :new_profile
+        get :edit_profile           
       post :create_profile      
       get :new_response
       post :create_response
