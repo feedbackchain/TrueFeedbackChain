@@ -24,6 +24,7 @@ gem 'devise'
 gem 'haml'
 gem 'rails_admin', '~> 1.3'
 gem 'carmen-rails', git: 'git@github.com:Studiosity/carmen-rails.git'
+gem "chartkick"
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks

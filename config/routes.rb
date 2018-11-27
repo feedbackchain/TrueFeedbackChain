@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   
   devise_for :users 
          
- resources :profiles, only: [:show, :new, :create, :edit]      
+ resources :profiles      
     
 
  get 'profiles/subregion_options' => 'profiles#subregion_options'
@@ -19,7 +19,8 @@ Rails.application.routes.draw do
         put :approve
         post :approve        
         get :new_profile
-        get :edit_profile           
+        get :edit_profile
+
       post :create_profile      
       get :new_response
       post :create_response

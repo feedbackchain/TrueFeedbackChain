@@ -2,7 +2,9 @@
   <a class="navbar-brand" href="/">FEEDBACK CHAIN</a>
     <form class="form-inline">
     <% if user_signed_in? %>
-
+ <a role="button" class="btn btn-outline-primary"> <%= "You have: #{number_to_currency(current_user.budget.fbcbudget.to_f, unit: "FBC ") unless nil?}   " %> </a>
+   <a role="button" > <%= link_to 'Create Survey', new_survey_path, class: "btn btn-outline-info" %> 
+   </a>
 <div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Account
@@ -16,7 +18,7 @@
     <a><%= link_to "Profile", current_user.profile, class: "dropdown-item"  %></a>
     <a><%= link_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item"  %></a>
   </div>
-   <a role="button" class="btn btn-outline-primary"> <%= "You have: #{number_to_currency(current_user.budget.fbcbudget.to_f, unit: "FBC ") unless nil?}   " %> </a>
+  
 
 
 

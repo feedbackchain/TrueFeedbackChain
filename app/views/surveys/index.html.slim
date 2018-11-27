@@ -1,32 +1,32 @@
- .container   
-    .row
-      # class="card-mb-3 text-center"
-        - @surveys.each do |survey|  
-        
-          # class="card mb-4 box-shadow"
-           # class="card-header"
-            - if current_user.id == survey.user_id
-              h6 class="my-0 font-weight-normal" style="display: inline-block" =link_to survey.name, survey_path(survey)
-            - else
-              h6 class="my-0 font-weight-normal" style="display: inline-block" =link_to survey.name, new_response_survey_path(survey)
-           # class="card-body"
-            span class="badge badge-info" = "Reward: #{survey.reward} FBC / User"
-            span class="badge badge-danger" = "Limit :#{survey.plimit} User"
-            span class="badge badge-success" = "Total Reward :#{survey.totalr} FBC"
-            hr
-
-            - if current_user.id == survey.user_id
-              = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info btn-sm'
-              = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger btn-sm'
-              = link_to 'Finish', survey, confirm: 'Are you sure?', method: :finish, class: 'btn btn-danger btn-sm' if survey.approved?
-            - else  
-              - if current_user.admin?
-                = link_to 'Approve', survey, confirm: 'Are you sure?', method: :approve, class: 'btn btn-primary btn-sm' unless survey.approved?
-                = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger btn-sm'
-                = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info btn-sm'
-                = link_to 'Finish', finish_survey_path(survey), confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' if survey.approved?
+  .container       
+    # class="row"
+        - @surveys.each do |survey|
+          .col-md-4        
+            # class="card mb-4 box-shadow"
+             # class="card-header"
+              - if current_user.id == survey.user_id
+                h6 class="my-0 font-weight-normal" style="display: inline-block" =link_to survey.name, survey_path(survey)
               - else
-                = link_to 'Participate Now', edit_survey_path(survey), class: 'btn btn-info btn-sm'
+                h6 class="my-0 font-weight-normal" style="display: inline-block" =link_to survey.name, new_response_survey_path(survey)
+             # class="card-body"
+              span class="badge badge-info" = "Reward: #{survey.reward} FBC / User"
+              span class="badge badge-danger" = "Limit :#{survey.plimit} User"
+              span class="badge badge-success" = "Total R. :#{survey.totalr} FBC"
+              hr
+
+              - if current_user.id == survey.user_id
+                = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info btn-sm'
+                = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger btn-sm'
+                = link_to 'Finish', survey, confirm: 'Are you sure?', method: :finish, class: 'btn btn-danger btn-sm' if survey.approved?
+              - else  
+                - if current_user.admin?
+                  = link_to 'Approve', survey, confirm: 'Are you sure?', method: :approve, class: 'btn btn-primary btn-sm' unless survey.approved?
+                  = link_to 'Destroy', survey, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger btn-sm'
+                  = link_to 'Show', survey_path(survey), class: 'btn btn-info btn-sm'
+                  = link_to 'Edit', edit_survey_path(survey), class: 'btn btn-info btn-sm'
+                  = link_to 'Finish', finish_survey_path(survey), confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' if survey.approved?
+                - else
+                  = link_to 'Participate Now', new_response_survey_path(survey), class: 'btn btn-info btn-sm'
                   
          
                     

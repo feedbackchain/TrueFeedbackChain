@@ -1,0 +1,33 @@
+.container
+	.header
+		h2 Are You Ready For "True" and Cheap Feedback?
+	.row
+		 
+		.col-md-6
+			# class="card mb-4 box-shadow"
+             # class="card-header"
+				h2 style="Center" Total TFC Participants on Global:
+			 # class="card-body"
+				= pie_chart Profile.where(profilable_type: 'User').group(:country_code).count
+		.col-md-6
+			# class="card mb-4 box-shadow"
+             # class="card-header"
+				h2 style="Center" Total TFC Participants by Gender on Global:
+			 # class="card-body"
+				= pie_chart Profile.where(profilable_type: 'User').group(:gender).count
+				
+	.header	
+			h2 Are You Ready to Earning FBC by Your Feedback?
+	.row		 
+		.col-md-6
+			# class="card mb-4 box-shadow"
+             # class="card-header"
+				h2 style="Center" Rewards per User on Global:
+			 # class="card-body"	
+				= pie_chart Survey.group(:reward).count
+		.col-md-6
+			# class="card mb-4 box-shadow"
+             # class="card-header"
+				h2 style="Center" Total TFC Participants by Gender on Global:
+			 # class="card-body"	
+				= pie_chart User.group(:role).count		

@@ -11,7 +11,7 @@ class SurveysController < ApplicationController
   # GET /surveys
   # GET /surveys.json
   def index
-    @surveys = Survey.order('created_at ASC').where(approved: true, finished: false)
+    @surveys = Survey.order('created_at DESC').where(approved: true, finished: false)
   end
 
   # GET /surveys/1
@@ -21,6 +21,7 @@ class SurveysController < ApplicationController
    @country = Carmen::Country.coded(@survey.profile.country_code)
     @subregions = @country.subregions
     @state = @subregions.coded(@survey.profile.state_code)
+  
   end
 
   # GET /surveys/new
@@ -291,7 +292,7 @@ end
 def check_customer
 
   unless current_user.role == "Moderator" or current_user.admin? or current_user.role == "Customer"
-   redirect_to root_path, alert: 'Oops!...You dont have permission to create a survey'
+   redirect_to root_path, alert: 'Only Allowed Customers can create Survey'
   
   end
 end

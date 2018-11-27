@@ -11,7 +11,7 @@
   </head>
 
   <body>   
-
+<% if user_signed_in? %>
     
       <%= render 'surveys/head_file'%>
 
@@ -26,8 +26,14 @@
 
 <%= yield %>
 
-
 </div>
+<% else %>
+<%= render 'surveys/head_file'%>
+<div class="container" > <%= yield %> </div>
+
+<%= render 'shared/index_unsigned'%>
+
+<% end %>
   </body>
 </html>
 

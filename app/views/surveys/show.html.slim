@@ -1,11 +1,13 @@
 .container
 	h2 = @survey.name
 	- @survey.questions.each do |question|
-		# class="card-deck mb-3 text-center"
+		# class="card-deck mb-3 text-left"
 			# class="card mb-4"
 				# class="card-header"
 					= question.title
+					
 				# class="card-body"
+					= pie_chart question.answers.joins(:option).group(:otext).count
 					- question.options.each do |option|
 						.option	
 							= option.otext
@@ -28,3 +30,5 @@
 		span class="badge badge-danger" = "Max Age:  #{@survey.profile.max_age}"
 		span class="badge badge-primary" = "Min Age:  #{@survey.profile.min_age}"
 	= link_to 'Edit Survey Profile', edit_profile_survey_path(@survey), class: 'btn btn-info btn-sm' unless @survey.finished?	
+
+

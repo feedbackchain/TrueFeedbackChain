@@ -15,6 +15,8 @@
 //= require bootstrap
 //= require activestorage
 //= require turbolinks
+//= require highcharts
+//= require chartkick
 //= require_tree .
 //= require cocoon
 //= require popper

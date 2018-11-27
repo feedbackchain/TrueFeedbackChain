@@ -1,5 +1,7 @@
 {
   "name": "tfc",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "highcharts": "^6.2.0"
+  }
 }
