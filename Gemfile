@@ -22,7 +22,7 @@ gem 'jquery-rails'
 gem 'slim-rails'
 gem 'devise'
 gem 'haml'
-gem 'rails_admin', '~> 1.3'
+gem 'rails_admin', '~> 1.4'
 gem 'carmen-rails', git: 'git@github.com:Studiosity/carmen-rails.git'
 gem "chartkick"
 # Use CoffeeScript for .coffee assets and views
