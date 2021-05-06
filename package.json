@@ -2,6 +2,6 @@
   "name": "tfc",
   "private": true,
   "dependencies": {
-    "highcharts": "^6.2.0"
+    "highcharts": "^9.0.0"
   }
 }
